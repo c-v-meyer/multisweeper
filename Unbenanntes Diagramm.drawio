@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-09T09:52:59.832Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0" etag="XkiAJ-CmlS4mNzReYZrQ" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-09T10:05:06.863Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0" etag="wlPutsVdbtz5wrb5Fd7n" version="21.2.9" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1434" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -85,7 +85,7 @@
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="txWwnfR5ILLDlTxguffX-26" value="+ board: byte[][]&#xa;+ fieldStates: FieldState[]&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="txWwnfR5ILLDlTxguffX-25" vertex="1">
+        <mxCell id="txWwnfR5ILLDlTxguffX-26" value="+ board: byte[][]&#xa;+ fieldStates: FieldState[][]&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="txWwnfR5ILLDlTxguffX-25" vertex="1">
           <mxGeometry y="26" width="160" height="34" as="geometry" />
         </mxCell>
         <mxCell id="txWwnfR5ILLDlTxguffX-27" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="txWwnfR5ILLDlTxguffX-25" vertex="1">
@@ -102,7 +102,7 @@
             <mxRectangle x="560" y="304" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="txWwnfR5ILLDlTxguffX-31" value="UNREVEALED&#xa;FLAGGED_A&#xa;FLAGGED_B&#xa;REVEALED&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="txWwnfR5ILLDlTxguffX-30" vertex="1">
+        <mxCell id="txWwnfR5ILLDlTxguffX-31" value="Unrevealed&#xa;Revealed&#xa;FlaggedA&#xa;FlaggedB&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="txWwnfR5ILLDlTxguffX-30" vertex="1">
           <mxGeometry y="40" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="txWwnfR5ILLDlTxguffX-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.006;entryY=0.583;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="txWwnfR5ILLDlTxguffX-26" target="txWwnfR5ILLDlTxguffX-31" edge="1">
