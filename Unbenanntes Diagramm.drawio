@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-09T09:50:41.290Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0" etag="tKlXIb9sK2RKthULlmpy" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-09T09:52:59.832Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0" etag="XkiAJ-CmlS4mNzReYZrQ" version="21.2.9" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1434" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -55,7 +55,7 @@
             <mxRectangle x="560" y="304" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="txWwnfR5ILLDlTxguffX-13" value="UNREVEALED&#xa;FLAGGED_A&#xa;FLAGGED_B&#xa;ZERO&#xa;ONE&#xa;TWO&#xa;THREE&#xa;FOUR&#xa;FIVE&#xa;SIX&#xa;SEVEN&#xa;EIGHT&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="txWwnfR5ILLDlTxguffX-11" vertex="1">
+        <mxCell id="txWwnfR5ILLDlTxguffX-13" value="Unrevealed&#xa;FlaggedA&#xa;FlaggedB&#xa;Zero&#xa;One&#xa;Two&#xa;Three&#xa;Four&#xa;Five&#xa;Six&#xa;Seven&#xa;Eight&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="txWwnfR5ILLDlTxguffX-11" vertex="1">
           <mxGeometry y="40" width="160" height="180" as="geometry" />
         </mxCell>
         <mxCell id="txWwnfR5ILLDlTxguffX-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.006;entryY=0.185;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="txWwnfR5ILLDlTxguffX-16" target="txWwnfR5ILLDlTxguffX-13" edge="1">
@@ -66,7 +66,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="txWwnfR5ILLDlTxguffX-16" value="BoardResponse" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="txWwnfR5ILLDlTxguffX-16" value="ServerResponsePayload" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="165" y="547" width="160" height="60" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
