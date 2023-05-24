@@ -23,6 +23,15 @@ namespace Multisweeper
         public MainWindow()
         {
             InitializeComponent();
+            for (int i = 0; i < 10; ++i)
+            {
+                Image button = new Image()
+                {
+                    Source = new BitmapImage(new Uri(@"/Multisweeper;component/assets/covered_field.png", UriKind.Relative)),
+                    Tag = i
+                };
+                this.buttonGrid.Children.Add(button);
+            }
         }
     }
 }

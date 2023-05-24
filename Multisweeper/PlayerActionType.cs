@@ -1,5 +1,4 @@
-public enum PlayerActionPayloadType : byte
-{
+public enum PlayerActionType {
     Flag,
     Reveal
 }
