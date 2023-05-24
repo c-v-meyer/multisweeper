@@ -64,11 +64,11 @@ namespace Multisweeper
             {
                 for (byte a = (byte)Math.Max(x - 1, 0); a < Math.Min(x + 1, size - 1); a++)
                 {
-                    clientBoard.SetFieldState(i, a, (FieldState)board[i, a]);
-                    if (board[i, a] == 0)
-                    {
-                        reveal(i, a);
-                    }
+                    if (board[i, a] != 255) // Wenn keine Bombe...
+                        clientBoard.board[i, a] = (FieldState)board[i, a]; // Aufdecken und mit Zahl versehen
+                    if (board[i, a] == 0 && clientBoard.board[i, a] >= FieldState.Unrevealed) // Feld ist null und nicht aufgedeckt
+                                                                                              // (>= FieldState.Unrevealed heiﬂt Unrevealed oder FlaggedA oder FlaggedB)
+                        reveal(i, a); // REKURSION!!!
                 }
             }
         }

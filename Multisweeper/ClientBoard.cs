@@ -9,16 +9,11 @@ namespace Multisweeper
     class ClientBoard
     {
         private byte size;
-        private FieldState[,] board;
+        public FieldState[,] board { get; set; }
 
         public ClientBoard(byte size)
         {
             this.size = size;
-        }
-
-        public void SetFieldState(byte x, byte y, FieldState fieldState)
-        {
-            board[y, x] = fieldState;
         }
 
         public string Serialize()
