@@ -31,7 +31,7 @@ namespace Multisweeper
             return counter;
         }
 
-        public void initialize(byte x, byte y)
+        public void initialize()
         {
             for (byte i = 0; i < size; i++)
             {
