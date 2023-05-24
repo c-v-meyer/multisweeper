@@ -12,7 +12,6 @@ namespace Multisweeper
         public ServerBoard(byte size)
         {
             board = new byte[size, size];
-            initialize();
         }
 
         public byte checksurrounding(byte x, byte y)
@@ -31,7 +30,7 @@ namespace Multisweeper
             return counter;
         }
 
-        public void initialize()
+        public void initialize(byte x, byte y)
         {
             for (byte i = 0; i < size; i++)
             {
