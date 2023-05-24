@@ -27,7 +27,7 @@ namespace Multisweeper
             {
                 Image button = new Image()
                 {
-                    Source = new BitmapImage(new Uri(@"/Multisweeper;component/assets/covered_field.png", UriKind.Relative)),
+                    Source = new BitmapImage(new Uri(@"/Multisweeper;component/covered_field.png", UriKind.Relative)),
                     Tag = i
                 };
                 this.buttonGrid.Children.Add(button);

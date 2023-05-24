@@ -1,4 +1,8 @@
-public enum PlayerActionType {
-    Flag,
-    Reveal
+namespace Multisweeper
+{
+    public enum PlayerActionType
+    {
+        Flag,
+        Reveal
+    }
 }
