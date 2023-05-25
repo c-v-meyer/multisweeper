@@ -20,15 +20,22 @@ namespace Multisweeper
         {
             StringBuilder sb = new StringBuilder();
             for (byte y = 0; y < size; y++)
+            {
                 for (byte x = 0; x < size; x++)
+                {
                     sb.Append((byte)board[y, x]);
+                    sb.Append(",");
+                }
+            }
             return sb.ToString();
         }
 
         public void Deserialize(string str)
         {
-            for (int i = 0; i < str.Length / 2; i += 2)
-                board[i / size, i % size] = (FieldState) int.Parse(str.Substring(i, 1));
+            string[] fields = str.Split(',');
+            for (int i = 0; i < field.Length; i++) {
+                board[i/size, i%size] = (FieldType)Byte.Parse(fields[i]);
+            }
         }
     }
 }
