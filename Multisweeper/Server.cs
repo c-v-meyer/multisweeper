@@ -89,5 +89,11 @@ namespace Multisweeper {
                 }
             }
         }
+
+        public void sendMessage(string message)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes (msg);
+            tcpClient.Send(bytes);
+        }
     }
 }
