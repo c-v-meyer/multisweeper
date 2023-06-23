@@ -2,9 +2,11 @@
 {
     enum FieldState : byte
     {
-        Unrevealed = 9,
-        FlaggedA = 10,
-        FlaggedB = 11,
+        
+        RevealedBomb = 9,
+        Unrevealed = 10,
+        FlaggedA = 11,
+        FlaggedB = 12,
         Zero = 0,
         One = 1,
         Two = 2,
