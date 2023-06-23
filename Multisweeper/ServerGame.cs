@@ -22,10 +22,10 @@ namespace Multisweeper
 
 
         public void subpointsA(){
-            pointsA - 2;
+            pointsA = pointsA - 2;
         }
         public void subpointsB(){
-            pointsB - 2;
+            pointsB = pointsB - 2;
         }
 
         public int getpointsA(){

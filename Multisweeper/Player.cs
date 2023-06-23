@@ -1,6 +1,6 @@
 namespace Multisweeper
 {
-    enum Player : byte{
+    public enum Player{
 
         PlayerA,
         PlayerB

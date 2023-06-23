@@ -4,7 +4,7 @@ namespace Multisweeper
 {
     public class ServerBoard
     {
-        private int size;
+        private byte size;
         private byte[,] board; // 255 = Bombe; 0-8 = Bomben au�enrum
         private ClientBoard clientBoard; // Clientrepr�sentation des Boards (beinhaltet Flaggen)
         private Random random = new Random();
