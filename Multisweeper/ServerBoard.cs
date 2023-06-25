@@ -1,19 +1,21 @@
-using System;
+Ôªøusing System;
 
 namespace Multisweeper
 {
     class ServerBoard
     {
         private int size;
-        private byte[,] board; // 255 = Bombe; 0-8 = Bomben auﬂenrum
-        public ClientBoard clientBoard { get; private set; } // Clientrepr‰sentation des Boards (beinhaltet Flaggen)
+        private byte[,] board; // 255 = Bombe; 0-8 = Bomben au√üenrum
+        public ClientBoard clientBoard { get; private set; } // Clientrepr√§sentation des Boards (beinhaltet Flaggen)
         private Random random = new Random();
         public bool isInitialized { get; private set; }
+        private ServerGame servergame;
 
         public ServerBoard(byte size)
         {
             board = new byte[size, size];
             isInitialized = false;
+            servergame = new ServerGame();
         }
 
         public byte checksurrounding(byte x, byte y)
@@ -67,13 +69,78 @@ namespace Multisweeper
             {
                 for (byte a = (byte)Math.Max(x - 1, 0); a < Math.Min(x + 1, size - 1); a++)
                 {
+                    if (board[i, a] == 255)
+                        endGame();
                     if (board[i, a] != 255) // Wenn keine Bombe...
                         clientBoard.board[i, a] = (FieldState)board[i, a]; // Aufdecken und mit Zahl versehen
                     if (board[i, a] == 0 && clientBoard.board[i, a] >= FieldState.Unrevealed) // Feld ist null und nicht aufgedeckt
-                                                                                              // (>= FieldState.Unrevealed heiﬂt Unrevealed oder FlaggedA oder FlaggedB)
+                                                                                              // (>= FieldState.Unrevealed heiÔøΩt Unrevealed oder FlaggedA oder FlaggedB)
                         reveal(i, a); // REKURSION!!!
                 }
             }
+        }
+
+
+
+        public void flag(int x, int y, Player player)
+        {
+
+            if (board[x, y] == 255)
+            {
+                if (player == Player.PlayerA)
+                    servergame.addpointsA();
+
+                if (player == Player.PlayerB)
+                    servergame.addpointsB();
+
+            }
+            else
+            { //Wenn keine Bombe, -2 Punkte
+                if (player == Player.PlayerA)
+                    servergame.subpointsA();
+
+                if (player == Player.PlayerB)
+                    servergame.subpointsB();
+
+
+            }
+
+
+
+        }
+
+        public void checkWinner()
+        {
+            if (servergame.getpointsA() == servergame.getpointsB())
+                Console.WriteLine("Unentschieden!");
+            if (servergame.getpointsA() > servergame.getpointsB())
+                Console.WriteLine("Player A wins!");
+            else
+                Console.WriteLine("Player B wins!");
+
+        }
+
+        public void revealAllBombs() //Falls gameover, sollen alle Bomben aufgedeckt werden
+        {
+            for (byte i = 0; i < size; i++)
+            {
+                for (byte a = 0; a < size; a++)
+                {
+                    if (board[i, a] == 255)
+                    {
+                        clientBoard.board[i, a] = FieldState.RevealedBomb;
+                    }
+                }
+            }
+
+        }
+
+
+        public void endGame()
+        {
+
+            //soll das spiel abbrechen
+
         }
     }
 }
