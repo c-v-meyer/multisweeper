@@ -16,12 +16,12 @@ namespace Multisweeper
             board = new ClientBoard(size);
             if (createParty)
             {
-                server = new Server(board.size, () => client = new Client("127.0.0.1", board));
+                server = new Server(board.size, () => client = new Client("127.0.0.1", board, UpdateDisplay));
                 System.Diagnostics.Trace.WriteLine(server.Serve());
             }
             else
             {
-                client = new Client(ip, board);
+                client = new Client(ip, board, UpdateDisplay);
                 // TEST:
                 client.Send(ClientMessageType.Reveal, 0, 0);
             }
@@ -39,6 +39,11 @@ namespace Multisweeper
         {
             Image button = (Image) sender;
             Trace.WriteLine(button.Name);
+        }
+
+        private void UpdateDisplay()
+        {
+            // Nimm board und setze Bilder
         }
     }
 }

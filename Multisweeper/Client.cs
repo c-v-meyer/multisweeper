@@ -18,8 +18,9 @@ namespace Multisweeper
         private Mutex mainToThreadMutex, threadToMainMutex;
 
         private ClientBoard board;
+        private Action listenerCallback;
 
-        public Client(string ip, ClientBoard board)
+        public Client(string ip, ClientBoard board, Action listenerCallback)
         {
             this.board = board;
             tcpClient = new TcpClient(ip, port);
@@ -47,6 +48,7 @@ namespace Multisweeper
                         board = serverMessage.clientBoard;
                         break;
                 }
+                listenerCallback();
                 threadToMainMutex.ReleaseMutex();
             }
             finally
