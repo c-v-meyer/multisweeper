@@ -1,0 +1,23 @@
+﻿<Window x:Class="Multisweeper.StartupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Multisweeper"
+        mc:Ignorable="d"
+        Title="StartupWindow" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid Background="#0D800D">
+        <Image x:Name="Logo" HorizontalAlignment="Center" Height="64" Margin="0,10,0,0" VerticalAlignment="Top" Width="428" Source="/logo.png" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-2.5"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Button x:Name="joinPartyButton" Content="Join Party" HorizontalAlignment="Center" Margin="0,176,0,0" VerticalAlignment="Top" Height="66" Width="318" FontSize="20" Click="JoinPartyButton_Click"/>
+        <Button x:Name="createPartyButton" Content="Create Party" HorizontalAlignment="Center" Margin="0,291,0,0" VerticalAlignment="Top" Height="66" Width="318" FontSize="20" Click="CreatePartyButton_Click"/>
+    </Grid>
+</Window>

@@ -8,34 +8,25 @@ namespace Multisweeper
 {
     class ClientBoard
     {
-        private byte size;
+        public byte size { get; }
         public FieldState[,] board { get; set; }
 
         public ClientBoard(byte size)
         {
             this.size = size;
+            board = new FieldState[size, size];
         }
 
-        public string Serialize()
+        public byte[] Serialize()
         {
-            StringBuilder sb = new StringBuilder();
-            for (byte y = 0; y < size; y++)
-            {
-                for (byte x = 0; x < size; x++)
-                {
-                    sb.Append((byte)board[y, x]);
-                    sb.Append(",");
-                }
-            }
-            return sb.ToString();
+            byte[] payload = new byte[board.Length * board.Length];
+            Buffer.BlockCopy(board, 0, payload, 0, payload.Length);
+            return payload;
         }
 
-        public void Deserialize(string str)
+        public void Deserialize(byte[] payload)
         {
-            string[] fields = str.Split(',');
-            for (int i = 0; i < field.Length; i++) {
-                board[i/size, i%size] = (FieldType)Byte.Parse(fields[i]);
-            }
+            Buffer.BlockCopy(payload, 0, board, 0, payload.Length);
         }
     }
 }

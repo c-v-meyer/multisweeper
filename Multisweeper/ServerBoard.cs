@@ -2,16 +2,18 @@ using System;
 
 namespace Multisweeper
 {
-    public class ServerBoard
+    class ServerBoard
     {
         private int size;
         private byte[,] board; // 255 = Bombe; 0-8 = Bomben auﬂenrum
-        private ClientBoard clientBoard; // Clientrepr‰sentation des Boards (beinhaltet Flaggen)
+        public ClientBoard clientBoard { get; private set; } // Clientrepr‰sentation des Boards (beinhaltet Flaggen)
         private Random random = new Random();
+        public bool isInitialized { get; private set; }
 
         public ServerBoard(byte size)
         {
             board = new byte[size, size];
+            isInitialized = false;
         }
 
         public byte checksurrounding(byte x, byte y)
@@ -32,6 +34,7 @@ namespace Multisweeper
 
         public void initialize(byte x, byte y)
         {
+            isInitialized = true;
             for (byte i = 0; i < size; i++)
             {
                 for (byte a = 0; a < size; a++)
