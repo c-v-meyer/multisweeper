@@ -14,8 +14,23 @@ namespace Multisweeper
         public ServerBoard(byte size)
         {
             board = new byte[size, size];
+            clientBoard = new ClientBoard(size);
             isInitialized = false;
             servergame = new ServerGame();
+        }
+
+        private void UpdateClientBoard()
+        {
+            for (byte y = 0; y < size; y++)
+            {
+                for (byte x = 0; x < size; x++)
+                {
+                    if (board[y, x] <= 8)
+                    {
+                        clientBoard.board[y, x] = (FieldState) Enum.ToObject(typeof(FieldState), board[y, x]);
+                    }
+                }
+            }
         }
 
         public byte checksurrounding(byte x, byte y)
@@ -61,6 +76,7 @@ namespace Multisweeper
                     }
                 }
             }
+            UpdateClientBoard();
         }
 
         public void reveal(int x, int y)
@@ -78,6 +94,7 @@ namespace Multisweeper
                         reveal(i, a); // REKURSION!!!
                 }
             }
+            UpdateClientBoard();
         }
 
 
@@ -88,10 +105,15 @@ namespace Multisweeper
             if (board[x, y] == 255)
             {
                 if (player == Player.PlayerA)
+                {
                     servergame.addpointsA();
-
+                    clientBoard.board[y, x] = FieldState.FlaggedA;
+                }
                 if (player == Player.PlayerB)
+                {
                     servergame.addpointsB();
+                    clientBoard.board[y, x] = FieldState.FlaggedB;
+                }
 
             }
             else

@@ -9,14 +9,21 @@ namespace Multisweeper
         private const byte size = 8;
         private ClientBoard board;
         private Server server;
+        private Client client;
 
-        public MainWindow(bool createParty)
+        public MainWindow(bool createParty, string ip)
         {
             board = new ClientBoard(size);
             if (createParty)
             {
-                server = new Server(board.size);
+                server = new Server(board.size, () => client = new Client("127.0.0.1", board));
                 System.Diagnostics.Trace.WriteLine(server.Serve());
+            }
+            else
+            {
+                client = new Client(ip, board);
+                // TEST:
+                client.Send(ClientMessageType.Reveal, 0, 0);
             }
             Closing += MainWindow_Closing;
             InitializeComponent();
@@ -30,8 +37,8 @@ namespace Multisweeper
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button) sender;
-            Trace.WriteLine(button.Content.ToString());
+            Image button = (Image) sender;
+            Trace.WriteLine(button.Name);
         }
     }
 }

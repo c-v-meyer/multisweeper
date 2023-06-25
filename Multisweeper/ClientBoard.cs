@@ -15,18 +15,29 @@ namespace Multisweeper
         {
             this.size = size;
             board = new FieldState[size, size];
+            for (byte y = 0; y < size; y++)
+            {
+                for (byte x = 0; x < size; x++)
+                {
+                    board[y, x] = FieldState.Unrevealed;
+                }
+            }
         }
 
         public byte[] Serialize()
         {
             byte[] payload = new byte[board.Length * board.Length];
-            Buffer.BlockCopy(board, 0, payload, 0, payload.Length);
+            for (byte y = 0; y < size; y++)
+                for (byte x = 0; x < size; x++)
+                    payload[y * size + x] = (byte) board[y, x];
             return payload;
         }
 
         public void Deserialize(byte[] payload)
         {
-            Buffer.BlockCopy(payload, 0, board, 0, payload.Length);
+            for (byte y = 0; y < size; y++)
+                for (byte x = 0; x < size; x++)
+                    board[y, x] = (FieldState)Enum.ToObject(typeof(FieldState), payload[y * size + x]);
         }
     }
 }

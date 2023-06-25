@@ -41,13 +41,15 @@ namespace Multisweeper
             if (!cancel)
             {
                 System.Diagnostics.Trace.WriteLine(ip);
-                //TODO
+                MainWindow mainWindow = new MainWindow(false, ip);
+                mainWindow.Show();
+                Close();
             }
         }
 
         private void CreatePartyButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow(true);
+            MainWindow mainWindow = new MainWindow(true, "");
             mainWindow.Show();
             Close();
         }

@@ -12,6 +12,7 @@ namespace Multisweeper
         public byte x { get; init; }
         public byte y { get; init; }
 
+        public ClientMessage() { }
         public ClientMessage(byte[] payload)
         {
             messageType = (ClientMessageType) Enum.ToObject(typeof(ClientMessageType), payload[0]);

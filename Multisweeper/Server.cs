@@ -18,9 +18,12 @@ namespace Multisweeper {
 
         private ServerBoard board;
 
-        public Server(byte size)
+        private Action connectCallback;
+
+        public Server(byte size, Action connectCallback)
         {
             board = new ServerBoard(size);
+            this.connectCallback = connectCallback;
         }
 
         public string Serve()
@@ -36,7 +39,10 @@ namespace Multisweeper {
                 ipAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString();
             }
             if (serverThread == null)
+            {
                 serverThread = new Thread(new ThreadStart(ServerThreadTask));
+                serverThread.Start();
+            }
             return ipAddress;
         }
 
@@ -45,12 +51,13 @@ namespace Multisweeper {
             try
             {
                 tcpListener.Start();
+                connectCallback();
                 tcpClientA = tcpListener.AcceptTcpClient();
                 nwStreamA = tcpClientA.GetStream();
                 tcpClientB = tcpListener.AcceptTcpClient();
                 nwStreamB = tcpClientB.GetStream();
-                nextTcpClient = tcpClientA;
-                nextNwStream = nwStreamA;
+                nextTcpClient = tcpClientB;
+                nextNwStream = nwStreamB;
 
                 while (true)
                 {
