@@ -15,7 +15,7 @@ namespace Multisweeper
         private TcpClient tcpClient;
         private NetworkStream nwStream;
         private Thread listeningThread;
-        private Mutex mainToThreadMutex, threadToMainMutex;
+        private SemaphoreSlim mainToThreadSem, threadToMainSem;
 
         private ClientBoard board;
         private Action listenerCallback;
@@ -25,9 +25,8 @@ namespace Multisweeper
             this.board = board;
             tcpClient = new TcpClient(ip, port);
             nwStream = tcpClient.GetStream();
-            mainToThreadMutex = new Mutex();
-            threadToMainMutex = new Mutex();
-            mainToThreadMutex.WaitOne();
+            mainToThreadSem = new SemaphoreSlim(0);
+            threadToMainSem = new SemaphoreSlim(1);
             listeningThread = new Thread(new ThreadStart(ListeningThreadTask));
             listeningThread.Start();
         }
@@ -36,8 +35,8 @@ namespace Multisweeper
         {
             try
             {
-                mainToThreadMutex.WaitOne();
-                threadToMainMutex.WaitOne();
+                mainToThreadSem.Wait();
+                threadToMainSem.Wait();
                 byte[] payload = new byte[tcpClient.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(payload, 0, tcpClient.ReceiveBufferSize);
                 ServerMessage serverMessage = new ServerMessage(payload);
@@ -49,7 +48,7 @@ namespace Multisweeper
                         break;
                 }
                 listenerCallback();
-                threadToMainMutex.ReleaseMutex();
+                threadToMainSem.Release();
             }
             finally
             {
@@ -60,11 +59,11 @@ namespace Multisweeper
         public void Send(ClientMessageType messageType, byte x, byte y)
         {
             ClientMessage message = new ClientMessage() { messageType = messageType, x = x, y = y };
-            threadToMainMutex.WaitOne();
+            threadToMainSem.Wait();
             byte[] payload = message.Serialize();
             nwStream.Write(payload, 0, payload.Length);
-            threadToMainMutex.ReleaseMutex();
-            mainToThreadMutex.ReleaseMutex();
+            threadToMainSem.Release();
+            mainToThreadSem.Release();
         }
 
         public void Stop()
