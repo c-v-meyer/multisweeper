@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="covered_field.png" />
     <None Remove="logo.png" />
+    <None Remove="mine.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="logo.png" />
+    <Resource Include="mine.png" />
   </ItemGroup>
 
 </Project>

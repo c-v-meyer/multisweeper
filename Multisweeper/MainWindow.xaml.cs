@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 using System.Diagnostics;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System;
+using System.Collections.Generic;
 
 namespace Multisweeper
 {
@@ -10,6 +13,23 @@ namespace Multisweeper
         private ClientBoard board;
         private Server server;
         private Client client;
+        private readonly Dictionary<FieldState, string> fileNames =
+            new Dictionary<FieldState, string>
+            {
+                {FieldState.Unrevealed, "/covered_field.png" },
+                {FieldState.FlaggedA, "/flag_self.png" },
+                {FieldState.FlaggedB, "/flag_opponent.png" },
+                {FieldState.RevealedBomb, "/mine.png" },
+                {FieldState.Zero, "/revealed_field_0.png" },
+                {FieldState.One, "/revealed_field_1.png" },
+                {FieldState.Two, "/revealed_field_2.png" },
+                {FieldState.Three, "/revealed_field_3.png" },
+                {FieldState.Four, "/revealed_field_4.png" },
+                {FieldState.Five, "/revealed_field_5.png" },
+                {FieldState.Six, "/revealed_field_6.png" },
+                {FieldState.Seven, "/revealed_field_7.png" },
+                {FieldState.Eight, "/revealed_field_8.png" }
+            };
 
         public MainWindow(bool createParty, string ip)
         {
@@ -39,11 +59,33 @@ namespace Multisweeper
         {
             Image button = (Image) sender;
             Trace.WriteLine(button.Name);
+
+            byte y = (byte)(button.Name[1] - '0');
+            byte x = (byte)(button.Name[2] - '0');
+            client.Send(ClientMessageType.Reveal,x ,y);
+            
+
         }
 
         private void UpdateDisplay()
+        
         {
-            // Nimm board und setze Bilder
+            
+            for(int i = 0; i < board.size; i++)
+            {
+
+                for(int j = 0; j< board.size; j++)
+                {
+
+                    string s = "";
+                    s = "B" + i + j;
+                    Image image = grid.FindName(s)as Image;
+                    image.Source = new BitmapImage(new System.Uri(fileNames[board.board[i, j]], UriKind.Relative));
+
+
+                }
+            }
+
         }
     }
 }
