@@ -97,9 +97,12 @@ namespace Multisweeper {
                     board.reveal(clientMessage.x, clientMessage.y);
                 else
                     board.initialize(clientMessage.x, clientMessage.y);
-                ServerMessage serverMessage = new ServerMessage(board.clientBoard);
+                ServerMessage serverMessage = new ServerMessage(board.clientBoard, nextNwStream != nwStreamA);
                 byte[] response = serverMessage.Serialize();
-                nextNwStream.Write(response, 0, response.Length);
+                nwStreamA.Write(response, 0, response.Length);
+                serverMessage = new ServerMessage(board.clientBoard, nextNwStream != nwStreamB);
+                response = serverMessage.Serialize();
+                nwStreamB.Write(response, 0, response.Length);
                 return true;
             }
             else

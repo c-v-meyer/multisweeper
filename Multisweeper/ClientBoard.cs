@@ -29,7 +29,9 @@ namespace Multisweeper
             byte[] payload = new byte[board.Length * board.Length];
             for (byte y = 0; y < size; y++)
                 for (byte x = 0; x < size; x++)
-                    payload[y * size + x] = (byte) board[y, x];
+                {
+                    payload[y * size + x] = (byte)board[y, x];
+                }
             return payload;
         }
 

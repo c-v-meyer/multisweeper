@@ -10,7 +10,6 @@ namespace Multisweeper
     public partial class MainWindow : Window
     {
         private const byte size = 8;
-        private ClientBoard board;
         private Server server;
         private Client client;
         private readonly Dictionary<FieldState, string> fileNames =
@@ -33,21 +32,18 @@ namespace Multisweeper
 
         public MainWindow(bool createParty, string ip)
         {
-            board = new ClientBoard(size);
+            InitializeComponent();
+            DataContext = this;
             if (createParty)
             {
-                server = new Server(board.size, () => client = new Client("127.0.0.1", board, UpdateDisplay));
+                server = new Server(size, () => client = new Client("127.0.0.1", false, size, UpdateDisplay, grid.Dispatcher));
                 System.Diagnostics.Trace.WriteLine(server.Serve());
             }
             else
             {
-                client = new Client(ip, board, UpdateDisplay);
-                // TEST:
-                client.Send(ClientMessageType.Reveal, 0, 0);
+                client = new Client(ip, true, size, UpdateDisplay, grid.Dispatcher);
             }
             Closing += MainWindow_Closing;
-            InitializeComponent();
-            DataContext = this;
         }
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -67,8 +63,7 @@ namespace Multisweeper
 
         }
 
-        private void UpdateDisplay()
-        
+        private void UpdateDisplay(ref ClientBoard board)
         {
             
             for(int i = 0; i < board.size; i++)
@@ -79,9 +74,8 @@ namespace Multisweeper
 
                     string s = "";
                     s = "B" + i + j;
-                    Image image = grid.FindName(s)as Image;
+                    Image image = grid.FindName(s) as Image;
                     image.Source = new BitmapImage(new System.Uri(fileNames[board.board[i, j]], UriKind.Relative));
-
 
                 }
             }

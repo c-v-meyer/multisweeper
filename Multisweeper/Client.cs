@@ -4,25 +4,32 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace Multisweeper
 {
     class Client
     {
+        public delegate void ListenerCallback(ref ClientBoard board);
+
         private const int port = 43612;
         private TcpClient tcpClient;
         private NetworkStream nwStream;
         private Thread listeningThread;
         private SemaphoreSlim mainToThreadSem, threadToMainSem;
 
-        private ClientBoard board;
-        private Action listenerCallback;
+        public ClientBoard board { get; set; }
+        private bool ownTurn;
+        private ListenerCallback listenerCallback;
+        private Dispatcher callbackDispatcher;
 
-        public Client(string ip, ClientBoard board, Action listenerCallback)
+        public Client(string ip, bool ownTurn, byte size, ListenerCallback listenerCallback, Dispatcher callbackDispatcher)
         {
-            this.board = board;
+            this.board = new ClientBoard(size);
+            this.ownTurn = ownTurn;
+            this.listenerCallback = listenerCallback;
+            this.callbackDispatcher = callbackDispatcher;
             tcpClient = new TcpClient(ip, port);
             nwStream = tcpClient.GetStream();
             mainToThreadSem = new SemaphoreSlim(0);
@@ -35,20 +42,24 @@ namespace Multisweeper
         {
             try
             {
-                mainToThreadSem.Wait();
-                threadToMainSem.Wait();
-                byte[] payload = new byte[tcpClient.ReceiveBufferSize];
-                int bytesRead = nwStream.Read(payload, 0, tcpClient.ReceiveBufferSize);
-                ServerMessage serverMessage = new ServerMessage(payload);
-                System.Diagnostics.Trace.WriteLine("Received a message!!1!!11!111!!111!!!!!!!!");
-                switch (serverMessage.messageType)
+                while (true)
                 {
-                    case ServerMessageType.BoardUpdate:
-                        board = serverMessage.clientBoard;
-                        break;
+                    mainToThreadSem.Wait();
+                    threadToMainSem.Wait();
+                    byte[] payload = new byte[tcpClient.ReceiveBufferSize];
+                    int bytesRead = nwStream.Read(payload, 0, tcpClient.ReceiveBufferSize);
+                    ServerMessage serverMessage = new ServerMessage(payload);
+                    ownTurn = serverMessage.ownTurn;
+                    System.Diagnostics.Trace.WriteLine("Received a message!!1!!11!111!!111!!!!!!!!");
+                    switch (serverMessage.messageType)
+                    {
+                        case ServerMessageType.BoardUpdate:
+                            board = serverMessage.clientBoard;
+                            break;
+                    }
+                    callbackDispatcher.Invoke(listenerCallback, board);
+                    threadToMainSem.Release();
                 }
-                listenerCallback();
-                threadToMainSem.Release();
             }
             finally
             {
@@ -56,8 +67,11 @@ namespace Multisweeper
             }
         }
 
+
         public void Send(ClientMessageType messageType, byte x, byte y)
         {
+            if (!ownTurn)
+                return;
             ClientMessage message = new ClientMessage() { messageType = messageType, x = x, y = y };
             threadToMainSem.Wait();
             byte[] payload = message.Serialize();
