@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Multisweeper
 {
+    // Nachricht vom Server an den Client
     class ServerMessage
     {
-        public ServerMessageType messageType { get; }
-        public bool ownTurn;
-        public ClientBoard clientBoard { get; }
+        public ServerMessageType messageType { get; } // Art der Nachricht
+        public bool ownTurn; // Ist der empfangende Client am Zug?
+        public ClientBoard clientBoard { get; } // Aktuelles Spielfeld
 
+        // ServerMessage aus rohem Datenstrom zusammenschustern
         public ServerMessage(byte[] payload)
         {
             messageType = (ServerMessageType) Enum.ToObject(typeof(ServerMessageType), payload[0]);
@@ -26,6 +28,7 @@ namespace Multisweeper
             }
         }
 
+        // "Normaler" Kosntruktor
         public ServerMessage(ClientBoard clientBoard, bool ownTurn)
         {
             messageType = ServerMessageType.BoardUpdate;
@@ -33,6 +36,7 @@ namespace Multisweeper
             this.ownTurn = ownTurn;
         }
 
+        // ServerMessage in rohen Datenstrom aufdröseln
         public byte[] Serialize()
         {
             switch (messageType)
