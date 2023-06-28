@@ -28,13 +28,13 @@ namespace Multisweeper
                 {
                     if (board[y, x] <= 8)
                     {
-                        clientBoard.board[y, x] = (FieldState) Enum.ToObject(typeof(FieldState), board[y, x]);
+                        clientBoard.board[y, x] = (FieldState) Enum.ToObject(typeof(FieldState), board[y, x]); // Wandelt Zahl in Enum um
                     }
                 }
             }
         }
 
-        public byte checksurrounding(byte x, byte y)
+        public byte checksurrounding(byte x, byte y) // Zählt die Anzahl der Bomben die außenrum eines Feldes sind
         {
             byte counter = 0;
             for (int i = Math.Max(y - 1, 0); i <= Math.Min(y + 1, size - 1); i++)
@@ -57,9 +57,9 @@ namespace Multisweeper
             {
                 for (byte a = 0; a < size; a++)
                 {
-                    if (!(x > i - 2 && x < i + 2 && y > a - 2 && y < a + 2))
-                    {  //Feld um den ersten Klick muss null sein
-                        int nr = random.Next(1, 7);
+                    if (!(x > i - 2 && x < i + 2 && y > a - 2 && y < a + 2)) // Feld um den ersten Klick muss null sein
+                    {  
+                        int nr = random.Next(1, 7); // Wahrscheinlichkeit von 1 zu 7 dass eine Bombe platziert wird
                         if (nr == 1)
                         {
                             board[i, a] = 255;
@@ -103,7 +103,7 @@ namespace Multisweeper
         public void flag(int x, int y, Player player)
         {
 
-            if (board[x, y] == 255)
+            if (board[x, y] == 255) // Wenn Bombe +1 Punkt
             {
                 if (player == Player.PlayerA)
                 {
@@ -118,7 +118,7 @@ namespace Multisweeper
 
             }
             else
-            { //Wenn keine Bombe, -2 Punkte
+            { //Wenn keine Bombe -2 Punkte
                 if (player == Player.PlayerA)
                     servergame.subpointsA();
 
