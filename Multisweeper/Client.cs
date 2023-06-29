@@ -17,7 +17,9 @@ namespace Multisweeper
         private TcpClient tcpClient; // Verbindung zum Server
         private NetworkStream nwStream;
         private Thread listeningThread; // Thread, der stets horcht
-        private SemaphoreSlim mainToThreadSem, threadToMainSem; // Synchronisation beider Threads
+        // Synchronisation beider Threads
+        private SemaphoreSlim listenSignal;
+        private Mutex streamLock;
 
         public ClientBoard board { get; set; }
         private bool ownTurn; // Bin ich am Zug?
@@ -33,8 +35,8 @@ namespace Multisweeper
             // Verbindung zum Server aufbauen
             tcpClient = new TcpClient(ip, port);
             nwStream = tcpClient.GetStream();
-            mainToThreadSem = new SemaphoreSlim(0);
-            threadToMainSem = new SemaphoreSlim(1);
+            listenSignal = new SemaphoreSlim(0);
+            streamLock = new Mutex();
             // Thread starten
             listeningThread = new Thread(new ThreadStart(ListeningThreadTask));
             listeningThread.Start();
@@ -47,8 +49,8 @@ namespace Multisweeper
                 while (true)
                 {
                     // Warte, bis gehört werden soll
-                    mainToThreadSem.Wait();
-                    threadToMainSem.Wait(); // Ressourcen reservieren
+                    listenSignal.Wait();
+                    streamLock.WaitOne(); // Ressourcen reservieren
                     byte[] payload = new byte[tcpClient.ReceiveBufferSize];
                     int bytesRead = nwStream.Read(payload, 0, tcpClient.ReceiveBufferSize);
                     // Rohen Datenstrom in ServerMessage umwandeln
@@ -62,7 +64,7 @@ namespace Multisweeper
                             break;
                     }
                     callbackDispatcher.Invoke(listenerCallback, board); // Callback aufrufen
-                    threadToMainSem.Release(); // Ressourcen freigeben
+                    streamLock.ReleaseMutex(); // Ressourcen freigeben
                 }
             }
             finally
@@ -80,12 +82,12 @@ namespace Multisweeper
                 return;
             // ClientMessage konstruieren
             ClientMessage message = new ClientMessage() { messageType = messageType, x = x, y = y };
-            threadToMainSem.Wait(); // Ressourcen reservieren
+            streamLock.WaitOne(); // Ressourcen reservieren
             // ClientMessage in rohen Datenstrom umwandeln
             byte[] payload = message.Serialize();
             nwStream.Write(payload, 0, payload.Length);
-            threadToMainSem.Release(); // Ressourcen reservieren
-            mainToThreadSem.Release(); // Anweisung zum Zuhören geben
+            streamLock.ReleaseMutex(); // Ressourcen reservieren
+            listenSignal.Release(); // Anweisung zum Zuhören geben
         }
 
         public void Stop()
